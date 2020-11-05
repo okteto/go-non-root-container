@@ -13,12 +13,13 @@ spec:
         app: non-root
     spec:
       securityContext:
-        runAsUser: 1100
-        runAsGroup: 1000
         fsGroup: 1000
       containers:
       - image: okteto/non-root:golang
         name: non-root-container
+        securityContext:
+          runAsUser: 1100
+          runAsGroup: 1000
 
 ---
 
