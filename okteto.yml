@@ -1,0 +1,17 @@
+name: non-root
+command: bash
+securityContext:
+  runAsUser: 1100
+  runAsGroup: 1000
+  fsGroup: 1000
+  capabilities:
+    add:
+    - SYS_PTRACE
+volumes:
+- /home/okteto/go/pkg/
+- /home/okteto/.cache/go-build/
+sync:
+- .:/usr/src/app
+forward:
+- 2345:2345
+- 8080:8080

@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: non-root
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: non-root
+  template:
+    metadata:
+      labels:
+        app: non-root
+    spec:
+      securityContext:
+        runAsUser: 1100
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+      - image: okteto/non-root:golang
+        name: non-root-container
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: non-root
+  annotations:
+    dev.okteto.com/auto-ingress: "true"
+spec:
+  type: ClusterIP  
+  ports:
+  - name: "non-root"
+    port: 8080
+  selector:
+    app: non-root
